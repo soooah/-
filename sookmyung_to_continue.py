@@ -32,14 +32,20 @@ with left:
 
     st.subheader("💬 나의 채팅 목록")
 
-    st.button("👤 김민지 멘티")
-    st.caption("친해져요! 😊")
+    if st.button("👤 김민지 멘티"):
+    st.session_state.selected_user = "김민지 멘티"
 
-    st.button("👤 박지훈 멘토")
-    st.caption("학교생활이 궁금하면 편하게 물어보세요!")
+st.caption("친해져요! 😊")
 
-    st.button("👤 이서연 멘티")
-    st.caption("같이 공부해요!")
+if st.button("👤 박지훈 멘토"):
+    st.session_state.selected_user = "박지훈 멘토"
+
+st.caption("학교생활이 궁금하면 편하게 물어보세요!")
+
+if st.button("👤 이서연 멘티"):
+    st.session_state.selected_user = "이서연 멘티"
+
+st.caption("같이 공부해요!")
 
     st.button("➕ 새로운 매칭 시작하기")
 
@@ -66,7 +72,7 @@ with middle:
 
 with right:
 
-    st.subheader("👤 김민지 멘티")
+    st.subheader(f"👤 {st.session_state.selected_user}")
 
     st.info("🎉 매칭에 성공했어요!\n\n대화를 시작해볼까요?")
 

@@ -61,22 +61,25 @@ with left:
 
     st.subheader("💬 나의 채팅 목록")
 
-    if st.button("👤 김민지 멘티"):
+    if st.button("👩 김민지 멘티", use_container_width=True):
         st.session_state.selected_user = "김민지 멘티"
 
-    st.caption("친해져요! 😊")
+    st.caption("😊 친해져요!")
+    st.divider()
 
-    if st.button("👤 박지훈 멘토"):
+    if st.button("👨 박지훈 멘토", use_container_width=True):
         st.session_state.selected_user = "박지훈 멘토"
 
     st.caption("학교생활이 궁금하면 편하게 물어보세요!")
+    st.divider()
 
-    if st.button("👤 이서연 멘티"):
+    if st.button("👩 이서연 멘티", use_container_width=True):
         st.session_state.selected_user = "이서연 멘티"
 
-    st.caption("같이 공부해요!")
+    st.caption("📚 같이 공부해요!")
+    st.divider()
 
-    st.button("➕ 새로운 매칭 시작하기")
+    st.button("➕ 새로운 매칭 시작하기", use_container_width=True)
 
 ################
 # 2. AI 추천봇 #
@@ -85,10 +88,27 @@ with middle:
 
     st.subheader("💡 이런 주제는 어때요?")
 
-    st.button("학교에서 가장 좋아하는 수업은?")
-    st.button("MT와 축제 중 하나만 간다면?")
-    st.button("방학 때 가장 하고 싶은 것은?")
-    st.button("과제 VS 시험")
+    topics = [
+    "학교에서 가장 좋아하는 수업은 무엇인가요?",
+    "MT와 축제 중 하나만 간다면 무엇을 선택하시겠어요?",
+    "방학 때 가장 하고 싶은 것은 무엇인가요?",
+    "과제 VS 시험! 하나만 선택한다면?"
+]
+
+for topic in topics:
+
+    if st.button(topic):
+
+        st.session_state.chat_data[
+            st.session_state.selected_user
+        ].append(
+            {
+                "role":"user",
+                "content":topic
+            }
+        )
+
+        st.rerun()
 
     st.divider()
 
@@ -108,9 +128,22 @@ with right:
     ]
 
     # 채팅 출력
-    for message in messages:
-        with st.chat_message(message["role"]):
-            st.write(message["content"])
+    for i, message in enumerate(messages):
+
+    with st.chat_message(message["role"]):
+
+        st.write(message["content"])
+
+        if message["role"] == "user":
+
+            if st.button(
+                "🗑 삭제",
+                key=f"delete_{st.session_state.selected_user}_{i}"
+            ):
+
+                messages.pop(i)
+
+                st.rerun()
 
     # 채팅 입력창
     user_input = st.chat_input("메시지를 입력하세요.")
